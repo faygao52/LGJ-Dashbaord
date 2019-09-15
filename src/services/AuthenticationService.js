@@ -1,5 +1,5 @@
 import { BehaviorSubject } from 'rxjs';
-import { handleResponse } from 'helpers/HandleResponse';
+import { ApiRequest } from 'helpers/APIRequest';
 
 const currentSessionSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentSession')));
 
@@ -22,7 +22,7 @@ function login(username, password) {
     };
 
     return fetch(`${process.env.REACT_APP_API_URL}/auth/login`, requestOptions)
-        .then(handleResponse)
+        .then(ApiRequest.handleResponse)
         .then(session => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('currentSession', JSON.stringify(session));
@@ -42,7 +42,7 @@ function register(name, username, password) {
     };
 
     return fetch(`${process.env.REACT_APP_API_URL}/auth/signup`, requestOptions)
-        .then(handleResponse)
+        .then(ApiRequest.handleResponse)
         .then(session => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('currentSession', JSON.stringify(session));

@@ -1,36 +1,57 @@
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
-import Person from "@material-ui/icons/Person";
-// import LocationOn from "@material-ui/icons/LocationOn";
-// import Notifications from "@material-ui/icons/Notifications";
-// import Unarchive from "@material-ui/icons/Unarchive";
-// import Language from "@material-ui/icons/Language";
+import PhotoLibrary from "@material-ui/icons/PhotoLibrary";
+import AccountBalance from "@material-ui/icons/AccountBalance";
+import Notifications from "@material-ui/icons/Notifications";
+import LocalLibrary from "@material-ui/icons/LocalLibrary";
+import QuestionAnswer from "@material-ui/icons/QuestionAnswer";
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard";
-// import UserProfile from "./src/views/UserProfile/UserProfile.js.js";
-// import TableList from "./src/views/TableList/TableList.js.js";
-// import Typography from "./src/views/Typography/Typography.js.js";
-// import Icons from "./src/views/Icons/Icons.js.js";
-// import Maps from "./src/views/Maps/Maps.js.js";
-// import NotificationsPage from "./src/views/Notifications/Notifications.js.js";
-// import UpgradeToPro from "./src/views/UpgradeToPro/UpgradeToPro.js.js";
+import BannerPage from "views/Banner/BannerTable"
 
 const dashboardRoutes = [
   {
     path: "/dashboard",
-    name: "Dashboard",
+    name: "控制面板",
     icon: Dashboard,
     component: DashboardPage,
     layout: "/admin"
+  },
+  {
+    path: "/banner",
+    name: "轮播图片",
+    icon: PhotoLibrary,
+    component: BannerPage,
+    layout: "/admin"
+  },
+  {
+    path: "/service-center",
+    name: "法律服务站",
+    icon: AccountBalance,
+    component: DashboardPage,
+    layout: "/admin"
+  },
+  {
+    path: "/law-firm",
+    name: "律所",
+    icon: LocalLibrary,
+    component: DashboardPage,
+    layout: "/admin"
+  },
+  {
+    path: "/case-study",
+    name: "法律案例",
+    icon: QuestionAnswer,
+    component: DashboardPage,
+    layout: "/admin"
+  },
+  {
+    path: "/message",
+    name: "用户留言",
+    icon: Notifications,
+    component: DashboardPage,
+    layout: "/admin"
   }
-  // },
-  // {
-  //   path: "/user",
-  //   name: "User Profile",
-  //   icon: Person,
-  //   component: UserProfile,
-  //   layout: "/admin"
-  // }
 ];
 
 export default dashboardRoutes;
