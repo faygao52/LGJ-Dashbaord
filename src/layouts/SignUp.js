@@ -9,7 +9,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import SnackbarContent from "assets/jss/material-dashboard-react/components/snackbarContentStyle";
+import SnackbarContent from "components/Snackbar/SnackbarContent";
 import { AuthenticationService } from 'services/AuthenticationService';
 
 const useStyles = makeStyles(theme => ({

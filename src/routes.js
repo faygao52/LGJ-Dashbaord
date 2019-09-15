@@ -6,8 +6,8 @@ import Person from "@material-ui/icons/Person";
 // import Unarchive from "@material-ui/icons/Unarchive";
 // import Language from "@material-ui/icons/Language";
 // core components/views for Admin layout
-import DashboardPage from "./src/views/Dashboard/Dashboard.js.js";
-import UserProfile from "./src/views/UserProfile/UserProfile.js.js";
+import DashboardPage from "views/Dashboard/Dashboard";
+// import UserProfile from "./src/views/UserProfile/UserProfile.js.js";
 // import TableList from "./src/views/TableList/TableList.js.js";
 // import Typography from "./src/views/Typography/Typography.js.js";
 // import Icons from "./src/views/Icons/Icons.js.js";
@@ -22,14 +22,15 @@ const dashboardRoutes = [
     icon: Dashboard,
     component: DashboardPage,
     layout: "/admin"
-  },
-  {
-    path: "/user",
-    name: "User Profile",
-    icon: Person,
-    component: UserProfile,
-    layout: "/admin"
   }
+  // },
+  // {
+  //   path: "/user",
+  //   name: "User Profile",
+  //   icon: Person,
+  //   component: UserProfile,
+  //   layout: "/admin"
+  // }
 ];
 
 export default dashboardRoutes;
