@@ -9,6 +9,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import SnackbarContent from "assets/jss/material-dashboard-react/components/snackbarContentStyle";
+import { AuthenticationService } from 'services/AuthenticationService';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -34,8 +36,41 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SignUp() {
+export default function SignUp(props) {
+  // redirect to home if already logged in
+  if (AuthenticationService.currentSessionValue) { 
+    props.history.push('/');
+  }
+  
   const classes = useStyles();
+  const [values, setValues] = React.useState({
+    name: '',
+    username: '',
+    password: ''
+  });
+  const [isSubmitting, setSubmitting] = React.useState(false);
+  const [status, setStatus] = React.useState('');
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    setSubmitting(true);
+    AuthenticationService.register(values.name, values.username, values.password)
+      .then(user => {
+        props.history.push("/");
+      })
+      .catch(error => {
+        setSubmitting(false)
+        if (!error) {
+          setStatus('服务器错误，请稍后尝试！');
+        } else {
+          setStatus(error)
+        }
+      });
+  };
+
+  const handleChange = name => event => {
+    setValues({ ...values, [name]: event.target.value });
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -47,7 +82,14 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           注册
         </Typography>
-        <form className={classes.form} noValidate>
+        {status &&
+          <SnackbarContent
+            fullWidth
+            message={ '注册失败 - ' + status }
+            color="danger"
+          />
+        }
+        <form className={classes.form} onSubmit={handleSubmit} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -56,7 +98,8 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                id="name"
+                value={values.name}
+                onChange={handleChange('name')}
                 label="请输入真实姓名"
                 autoFocus
               />
@@ -66,10 +109,11 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                id="wechat"
+                value={values.username}
+                onChange={handleChange('username')}
                 label="请输入微信号"
-                name="wechat"
-                autoComplete="wechat"
+                name="username"
+                autoComplete="username"
               />
             </Grid>
             <Grid item xs={12}>
@@ -80,7 +124,8 @@ export default function SignUp() {
                 name="password"
                 label="请输入密码（不少于6位）"
                 type="password"
-                id="password"
+                value={values.password}
+                onChange={handleChange('password')}
                 autoComplete="current-password"
               />
             </Grid>
@@ -90,6 +135,7 @@ export default function SignUp() {
             fullWidth
             variant="contained"
             color="primary"
+            disabled={isSubmitting}
             className={classes.submit}
           >
             注册

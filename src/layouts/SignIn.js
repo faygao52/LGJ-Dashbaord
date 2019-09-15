@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { AuthenticationService } from 'services/AuthenticationService';
-import SnackbarContent from "assets/jss/material-dashboard-react/components";
+import SnackbarContent from "assets/jss/material-dashboard-react/components/snackbarContentStyle";
 
 const useStyles = makeStyles(theme => ({
   '@global': {
