@@ -1,30 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        嘉定律管家
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import { AuthenticationService } from 'services/AuthenticationService';
+import SnackbarContent from "assets/jss/material-dashboard-react/components";
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -39,20 +25,51 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
   },
   avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    margin: theme.spacing(1)
   },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(3, 0, 2)
   },
 }));
 
-export default function SignIn() {
+export default function SignIn(props) {
+  // redirect to home if already logged in
+  if (AuthenticationService.currentSessionValue) { 
+    props.history.push('/');
+  }
+
   const classes = useStyles();
+  const [values, setValues] = useState({
+    username: '',
+    password: ''
+  });
+  const [isSubmitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState('');
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    setSubmitting(true);
+    AuthenticationService.login(values.username, values.password)
+      .then(user => {
+        props.history.push("/");
+      })
+      .catch(error => {
+        setSubmitting(false)
+        if (!error) {
+          setStatus('服务器错误，请稍后尝试！');
+        } else {
+          setStatus(error)
+        }
+      });
+  };
+
+  const handleChange = name => event => {
+    setValues({ ...values, [name]: event.target.value });
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -64,16 +81,24 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           登陆
         </Typography>
-        <form className={classes.form} noValidate>
+        {status &&
+          <SnackbarContent
+            fullWidth
+            message={ '登陆失败 - ' + status }
+            color="danger"
+          />
+        }
+        <form className={classes.form} onSubmit={handleSubmit} noValidate>
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            id="name"
-            label="请输入姓名"
-            name="name"
-            autoComplete="name"
+            value={values.username}
+            onChange={handleChange('username')}
+            label="请输入微信号"
+            name="username"
+            autoComplete="username"
             autoFocus
           />
           <TextField
@@ -84,7 +109,8 @@ export default function SignIn() {
             name="password"
             label="请输入密码"
             type="password"
-            id="password"
+            value={values.password}
+            onChange={handleChange('password')}
             autoComplete="current-password"
           />
           <Button
@@ -92,6 +118,7 @@ export default function SignIn() {
             fullWidth
             variant="contained"
             color="primary"
+            disabled={isSubmitting}
             className={classes.submit}
           >
             登陆
@@ -105,9 +132,6 @@ export default function SignIn() {
           </Grid>
         </form>
       </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
     </Container>
   );
 }
