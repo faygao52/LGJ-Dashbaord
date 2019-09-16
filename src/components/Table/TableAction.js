@@ -19,7 +19,7 @@ export default function TableAction(props) {
   const classes = useStyles()
   const { editRoute, onDelete, disabled } = props 
   return (
-    <TableCell className={classes.tableActions}>
+    <TableCell className={classes.tableCell}>
       <Tooltip
         id="tooltip-top"
         title="编辑"

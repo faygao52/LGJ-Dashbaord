@@ -10,6 +10,7 @@ import SignIn from 'layouts/SignIn';
 import SignUp from 'layouts/SignUp';
 
 import "assets/css/material-dashboard-react.css?v=1.8.0";
+import "assets/css/custom.css";
 
 const hist = createBrowserHistory();
 

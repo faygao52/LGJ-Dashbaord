@@ -50,10 +50,10 @@ export default function BannerRow(props) {
         {data.title}
       </TableCell>
       <TableCell className={classes.tableCell}>
-        {data.link}
+        <a href={data.link} target="_blank">{data.link}</a>
       </TableCell>
       <TableCell className={classes.tableCell}>
-        {data.imageURI}
+        <img className="banner-img" src={data.imageURI} alt="..." />
       </TableCell>
       <TableCell className={classes.tableCell}>
       <Switch
