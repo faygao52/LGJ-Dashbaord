@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -13,24 +13,11 @@ import CardBody from "components/Card/CardBody.js";
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 
 import { BannerService } from "services/BannerService";
+import BannerRow from "views/Banner/BannerRow";
 
 const useStyles = makeStyles(styles);
 export default function BannerTable() {
     const classes = useStyles()
-    const [hasError, setErrors] =  useState(false)
-    const [banners,setBanners ]= useState({})
-
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const res = await BannerService.listAll()
-                setBanners(res.dataCollection)
-            } catch(err) {
-                setErrors(err)
-            }
-        }
-        fetchData();
-    });
 
     return (
         <GridContainer>
@@ -43,11 +30,17 @@ export default function BannerTable() {
               </p>
             </CardHeader>
             <CardBody>
-              {/* <Table
+              <Table
                 tableHeaderColor="primary"
-                tableHead={["标题", "链接", "图片地址", "显示"]}
-                tableData={banners}
-              /> */}
+                tableHead={[
+                    { name: '标题', key: 'title', sortable: true },
+                    { name: '链接', key: 'link', sortable: true },
+                    { name: '图片', key: 'imageURI' },
+                    { name: '显示', key: 'visible' }
+                ]}
+                tableOnload={BannerService.listAll}
+                tableRowComponent={BannerRow}
+              />
             </CardBody>
           </Card>
         </GridItem>

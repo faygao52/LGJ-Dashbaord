@@ -18,8 +18,15 @@ const updateById = (id, banner) =>
         banner,
         'PUT'
     )
+const deleteById = (id) =>
+    ApiRequest.request(
+        `${process.env.REACT_APP_API_URL}/api/v1/banners/${id}`,
+        null,
+        'DELETE'
+    )
 export const BannerService = {
     listAll,
     getByID,
-    updateById
+    updateById,
+    deleteById
 }

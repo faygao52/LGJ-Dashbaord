@@ -24,14 +24,28 @@ const switchRoutes = (
     {routes.map((prop, key) => {
       if (prop.layout === "/admin") {
         return (
-          <Route
-            path={prop.layout + prop.path}
-            component={prop.component}
-            key={key}
-          />
+            <Route
+              path={prop.layout + prop.path}
+              component={prop.component}
+              key={key}
+            />
         );
       }
       return null;
+    })}
+    {routes.map((prop, key) => {
+      if (prop.layout === "/admin" && prop.subRoutes) {
+         prop.subRoutes.map((sub, subKey) => {
+            return (
+              <Route
+                path={prop.layout + prop.path + sub.path}
+                component={sub.component}
+                key={String(key) + String(subKey)}
+              />
+            )
+         })
+      }
+      return null
     })}
     <Redirect from="/admin" to="/admin/dashboard" />
   </Switch>

@@ -22,7 +22,17 @@ const dashboardRoutes = [
     name: "轮播图片",
     icon: PhotoLibrary,
     component: BannerPage,
-    layout: "/admin"
+    layout: "/admin",
+    subRoutes: [
+      {
+        // component: BannerEdit,
+        path:"/:id/edit"
+      },
+      {
+        //component: BannerEdit
+        path:"/new"
+      }
+    ]
   },
   {
     path: "/service-center",
