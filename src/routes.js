@@ -6,8 +6,12 @@ import Notifications from "@material-ui/icons/Notifications";
 import LocalLibrary from "@material-ui/icons/LocalLibrary";
 import QuestionAnswer from "@material-ui/icons/QuestionAnswer";
 // core components/views for Admin layout
+import ContainerPage from "views/ContainerPage"
+
 import DashboardPage from "views/Dashboard/Dashboard";
-import BannerPage from "views/Banner/BannerTable"
+
+import BannerTable from "views/Banner/BannerTable"
+import BannerEditPage from "views/Banner/BannerEdit"
 
 const dashboardRoutes = [
   {
@@ -19,18 +23,22 @@ const dashboardRoutes = [
   },
   {
     path: "/banner",
-    name: "轮播图片",
+    name: "轮播顶图",
     icon: PhotoLibrary,
-    component: BannerPage,
+    component: ContainerPage,
     layout: "/admin",
     subRoutes: [
       {
-        // component: BannerEdit,
+        component: BannerEditPage,
         path:"/:id/edit"
       },
       {
-        //component: BannerEdit
+        component: BannerEditPage,
         path:"/new"
+      },
+      {
+        component: BannerTable,
+        path: "/index"
       }
     ]
   },

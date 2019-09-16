@@ -10,7 +10,7 @@ import Navbar from "components/Navbars/Navbar"
 import Footer from "components/Footer/Footer";
 import Sidebar from "components/Sidebar/Sidebar";
 
-import routes from "routes.js";
+import routes from "routes";
 
 import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 
@@ -23,34 +23,20 @@ const switchRoutes = (
   <Switch>
     {routes.map((prop, key) => {
       if (prop.layout === "/admin") {
+        const Component = prop.component;
         return (
             <Route
               path={prop.layout + prop.path}
-              component={prop.component}
+              render={(newProp) => <Component {...newProp}  routesProp={prop} />}
               key={key}
             />
         );
       }
       return null;
     })}
-    {routes.map((prop, key) => {
-      if (prop.layout === "/admin" && prop.subRoutes) {
-         prop.subRoutes.map((sub, subKey) => {
-            return (
-              <Route
-                path={prop.layout + prop.path + sub.path}
-                component={sub.component}
-                key={String(key) + String(subKey)}
-              />
-            )
-         })
-      }
-      return null
-    })}
     <Redirect from="/admin" to="/admin/dashboard" />
   </Switch>
 );
-
 const useStyles = makeStyles(styles);
 
 export default function Admin({ ...rest }) {
