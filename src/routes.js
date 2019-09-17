@@ -14,6 +14,7 @@ import DashboardPage from "views/Dashboard/Dashboard";
 import { BannerTablePage, BannerEditPage} from "views/Banner"
 import { LawFirmTablePage, LawFirmEditPage } from "views/LawFirm"
 import { ServiceCenterTablePage, ServiceCenterEditPage } from "views/ServiceCenter"
+import { CaseTablePage, CaseEditPage } from "views/Case"
 
 //Law firm views
 
@@ -92,8 +93,22 @@ const dashboardRoutes = [
     path: "/case-study",
     name: "法律案例",
     icon: QuestionAnswer,
-    component: DashboardPage,
-    layout: "/admin"
+    component: ContainerPage,
+    layout: "/admin",
+    subRoutes: [
+      {
+        component: CaseEditPage,
+        path:"/:id/edit"
+      },
+      {
+        component: CaseEditPage,
+        path:"/new"
+      },
+      {
+        component: CaseTablePage,
+        path: "/index"
+      }
+    ],
   },
   {
     path: "/message",

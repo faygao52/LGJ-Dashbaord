@@ -45,7 +45,7 @@ export default function ServiceCenterEdit(props) {
           setErrors(err)
           setTimeout(function() {
             setErrors(false);
-          }, 6000);
+          }, 3000);
         }
       }
 
@@ -65,12 +65,12 @@ export default function ServiceCenterEdit(props) {
             setSucceed(true)
             setTimeout(function() {
                 props.history.goBack();
-            }, 6000);
+            }, 3000);
           } catch(err) {
             setErrors(err)
             setTimeout(function() {
                 setErrors(false);
-            }, 6000);
+            }, 3000);
         }
     }
 
@@ -80,12 +80,12 @@ export default function ServiceCenterEdit(props) {
             setSucceed(true)
             setTimeout(function() {
                 props.history.goBack();
-            }, 6000);
+            }, 3000);
         } catch(err) {
             setErrors(err)
             setTimeout(function() {
                 setErrors(false);
-            }, 6000);
+            }, 3000);
         }
     }
 

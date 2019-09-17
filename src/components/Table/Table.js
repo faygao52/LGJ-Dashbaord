@@ -38,7 +38,7 @@ export default function CustomTable(props) {
         setErrors(err)
         setTimeout(function() {
           setErrors(false);
-        }, 6000);
+        }, 3000);
     }
   }
   React.useEffect(() => {

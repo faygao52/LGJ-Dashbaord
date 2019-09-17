@@ -43,7 +43,7 @@ export default function BannerEdit(props) {
           setErrors(err)
           setTimeout(function() {
             setErrors(false);
-          }, 6000);
+          }, 3000);
         }
       }
 
@@ -67,12 +67,12 @@ export default function BannerEdit(props) {
             setSucceed(true)
             setTimeout(function() {
                 props.history.goBack();
-            }, 6000);
+            }, 3000);
           } catch(err) {
             setErrors(err)
             setTimeout(function() {
                 setErrors(false);
-            }, 6000);
+            }, 3000);
         }
     }
 
@@ -82,12 +82,12 @@ export default function BannerEdit(props) {
             setSucceed(true)
             setTimeout(function() {
                 props.history.goBack();
-            }, 6000);
+            }, 3000);
         } catch(err) {
             setErrors(err)
             setTimeout(function() {
                 setErrors(false);
-            }, 6000);
+            }, 3000);
         }
     }
     React.useEffect(() => {
