@@ -15,6 +15,7 @@ import { BannerTablePage, BannerEditPage} from "views/Banner"
 import { LawFirmTablePage, LawFirmEditPage } from "views/LawFirm"
 import { ServiceCenterTablePage, ServiceCenterEditPage } from "views/ServiceCenter"
 import { CaseTablePage, CaseEditPage } from "views/Case"
+import { MessageTablePage } from "views/Message"
 
 //Law firm views
 
@@ -114,8 +115,14 @@ const dashboardRoutes = [
     path: "/message",
     name: "用户留言",
     icon: Notifications,
-    component: DashboardPage,
-    layout: "/admin"
+    component: ContainerPage,
+    layout: "/admin",
+    subRoutes: [
+      {
+        component: MessageTablePage,
+        path: "/index"
+      }
+    ],
   }
 ];
 

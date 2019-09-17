@@ -21,7 +21,7 @@ export default function TableAction(props) {
   const { editRoute, onDelete, disabled } = props 
   return (
     <TableCell className={classes.tableCell}>
-      <Tooltip
+      { editRoute && <Tooltip
         id="tooltip-top"
         title="编辑"
         placement="top"
@@ -40,8 +40,8 @@ export default function TableAction(props) {
             }
           />
         </IconButton>
-      </Tooltip>
-      <Tooltip
+      </Tooltip>}
+      {onDelete && <Tooltip
         id="tooltip-top-start"
         title="删除"
         placement="top"
@@ -59,7 +59,7 @@ export default function TableAction(props) {
             }
           />
         </IconButton>
-      </Tooltip>
+      </Tooltip>}
     </TableCell>
   )
 }
