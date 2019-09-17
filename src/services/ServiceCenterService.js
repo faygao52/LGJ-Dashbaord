@@ -10,14 +10,31 @@ const getByID = (id) =>
         `${process.env.REACT_APP_API_URL}/api/v1/service-centers/${id}`
     )
 
-const updateById = (id, usercase) => 
+const updateById = (id, serviceCenter) => 
     ApiRequest.request(
         `${process.env.REACT_APP_API_URL}/api/v1/service-centers/${id}`,
-        usercase,
+        serviceCenter,
         'PUT'
     )
+
+const deleteById = (id) =>
+    ApiRequest.request(
+        `${process.env.REACT_APP_API_URL}/api/v1/service-centers/${id}`,
+        null,
+        'DELETE'
+    )
+
+const create = (serviceCenter) => 
+    ApiRequest.request(
+        `${process.env.REACT_APP_API_URL}/api/v1/service-centers/`,
+        serviceCenter,
+        'POST'
+    )
+    
 export const ServiceCenterService = {
     listAll,
     getByID,
-    updateById
+    updateById,
+    deleteById,
+    create
 }

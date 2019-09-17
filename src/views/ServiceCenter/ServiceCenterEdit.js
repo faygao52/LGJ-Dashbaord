@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
-import { LawFirmService } from "services/LawFirmService";
+import { ServiceCenterService } from "services/ServiceCenterService";
 
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
-import { InputLabel } from "@material-ui/core";
+import { Link } from '@material-ui/core';
 
 import Done from '@material-ui/icons/Done';
 import Error from '@material-ui/icons/ErrorOutline';
@@ -22,28 +22,25 @@ import CardFooter from "components/Card/CardFooter.js";
 import Snackbar from "components/Snackbar/Snackbar";
 
 const useStyles = makeStyles(styles);
-export default function LawFirmEdit(props) {
+export default function ServiceCenterEdit(props) {
     const id = props.match.params.id;
     const classes = useStyles()
     const isCreate = id === undefined ? '新建': '编辑'
     const [data, setData] = useState({
-        title: "",
+        name: "",
         workingHour: "",
         contact: "",
         address: "",
-        description: "",
-        review: 0,
-        services: 0,
-        coverImage: "",
-        icon: ""
+        longitude: 0,
+        latitude: 0
       });
     const [isSubmitting, setSubmitting] = useState(false);
     const [hasError, setErrors] = useState(false);
     const [succeed, setSucceed] = useState(false);
     async function fetchData() {
         try {
-          const res = await LawFirmService.getByID(id)
-          setData(res.lawFirm)
+          const res = await ServiceCenterService.getByID(id)
+          setData(res.serviceCenter)
         } catch(err) {
           setErrors(err)
           setTimeout(function() {
@@ -55,7 +52,7 @@ export default function LawFirmEdit(props) {
     const handleChange = name => event => {
         setData({ ...data, [name]: event.target.type === 'number' ? Number(event.target.value) : event.target.value });
     };
-
+    
     const handleSubmit = () => {
         setSubmitting(true)
         id == undefined ? create() : udpate()
@@ -64,7 +61,7 @@ export default function LawFirmEdit(props) {
 
     async function udpate() {
         try {
-            await LawFirmService.updateById(id, data)
+            await ServiceCenterService.updateById(id, data)
             setSucceed(true)
             setTimeout(function() {
                 props.history.goBack();
@@ -79,7 +76,7 @@ export default function LawFirmEdit(props) {
 
     async function create() {
         try {
-            await LawFirmService.create(data)
+            await ServiceCenterService.create(data)
             setSucceed(true)
             setTimeout(function() {
                 props.history.goBack();
@@ -91,6 +88,7 @@ export default function LawFirmEdit(props) {
             }, 6000);
         }
     }
+
     React.useEffect(() => {
         if (id !== undefined) {
             fetchData()
@@ -101,9 +99,9 @@ export default function LawFirmEdit(props) {
     return (
         <GridItem xs={12} sm={12} md={12}>
             <Card>
-            <CardHeader color="success">
-            <h4 className={classes.cardTitleWhite}>律所</h4>
-            <p className={classes.cardCategoryWhite}>{isCreate}接入评级系统的律所信息</p>
+            <CardHeader color="warning">
+            <h4 className={classes.cardTitleWhite}>法律服务站</h4>
+            <p className={classes.cardCategoryWhite}>{isCreate}服务站信息</p>
             </CardHeader>
             <CardBody>
             <Snackbar
@@ -129,43 +127,44 @@ export default function LawFirmEdit(props) {
             <GridContainer>
                 <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                        labelText="标题"
-                        id="title"
+                        labelText="服务站名称"
+                        id="name"
                         formControlProps={{
                         fullWidth: true
                         }}
                         inputProps={{
-                            onChange: handleChange('title'),
-                            value: data.title
+                            onChange: handleChange('name'),
+                            value: data.name
                         }}
                     />
                 </GridItem>
-                <GridItem xs={12} sm={6} md={3}>
+                <GridItem xs={6} sm={6} md={3}>
                     <CustomInput
-                        labelText="服务数"
-                        id="services"
+                        labelText="经度"
+                        id="longitude"
                         formControlProps={{
                         fullWidth: true
                         }}
                         inputProps={{
-                            type:"number",
-                            onChange: handleChange('services'),
-                            value: data.services
+                            type: "number",
+                            onChange: handleChange('longitude'),
+                            value: data.longitude,
+                            placeholder: '填写腾讯地图纬度'
                         }}
                     />
                 </GridItem>
-                <GridItem xs={12} sm={6} md={3}>
+                <GridItem xs={6} sm={6} md={3}>
                     <CustomInput
-                        labelText="评级"
-                        id="review"
+                        labelText="纬度"
+                        id="latitude"
                         formControlProps={{
                         fullWidth: true
                         }}
                         inputProps={{
-                            type:"number",
-                            onChange: handleChange('review'),
-                            value: data.review,
-                            placeholder: "请填写输入1-5，0为未评级"
+                            type: "number",
+                            onChange: handleChange('latitude'),
+                            value: data.latitude,
+                            placeholder: '填写腾讯地图经度'
                         }}
                     />
                 </GridItem>
@@ -189,7 +188,7 @@ export default function LawFirmEdit(props) {
                         labelText="联系电话"
                         id="contact"
                         formControlProps={{
-                        fullWidth: true
+                            fullWidth: true
                         }}
                         inputProps={{
                             onChange: handleChange('contact'),
@@ -199,57 +198,25 @@ export default function LawFirmEdit(props) {
                 </GridItem>
             </GridContainer>
             <GridContainer>
-                <GridItem xs={12} sm={12} md={9}>
+                <GridItem xs={12} sm={12} md={12}>
                 <CustomInput
                     labelText="地址"
                     id="address"
                     formControlProps={{
-                    fullWidth: true
+                        fullWidth: true
                     }}
                     inputProps={{
                         onChange: handleChange('address'),
                         value: data.address,
-                        placeholder: "律所详细地址"
+                        placeholder: "法律服务站详细地址"
                     }}
                 />
-                <CustomInput
-                    labelText="顶图链接"
-                    id="coverImage"
-                    formControlProps={{
-                    fullWidth: true
-                    }}
-                    inputProps={{
-                        onChange: handleChange('coverImage'),
-                        value: data.coverImage,
-                        placeholder: "填写外链图片地址，推荐图片大小550x230"
-                    }}
-                />
-                </GridItem>
-                {data.coverImage ?
-                <GridItem xs={12} sm={12} md={3}>
-                <InputLabel style={{ color: "#AAAAAA" }}>图片预览</InputLabel>
-                    <img src={data.coverImage} className="display-image" alt="..." />
-                </GridItem> : null}
-                <GridItem xs={12} sm={12} md={12}>
-                    <InputLabel style={{ color: "#AAAAAA" }}>简介</InputLabel>
-                    <CustomInput
-                        id="description"
-                        formControlProps={{
-                        fullWidth: true
-                        }}
-                        inputProps={{
-                            multiline: true,
-                            rows: 5,
-                            onChange: handleChange('description'),
-                            value: data.description,
-                            placeholder: "填写300字左右简介"
-                        }}
-                    />
                 </GridItem>
             </GridContainer>
             </CardBody>
             <CardFooter>
-            <Button color="success" disabled={isSubmitting} onClick={handleSubmit}>{isCreate}</Button>
+                <Button color="warning" disabled={isSubmitting} onClick={handleSubmit}>{isCreate}</Button>
+                <Button color="warning" href="https://lbs.qq.com/tool/getpoint/" target="_blank">坐标拾取器</Button>
             </CardFooter>
         </Card>
         </GridItem>

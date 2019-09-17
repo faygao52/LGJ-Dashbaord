@@ -16,8 +16,24 @@ const updateById = (id, usercase) =>
         usercase,
         'PUT'
     )
+
+const deleteById = (id) =>
+    ApiRequest.request(
+        `${process.env.REACT_APP_API_URL}/api/v1/cases/${id}`,
+        null,
+        'DELETE'
+    )
+
+const create = (usercase) => 
+    ApiRequest.request(
+        `${process.env.REACT_APP_API_URL}/api/v1/cases/`,
+        usercase,
+        'POST'
+    )
 export const CaseService = {
     listAll,
     getByID,
-    updateById
+    updateById,
+    deleteById,
+    create
 }

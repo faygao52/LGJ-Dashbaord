@@ -13,6 +13,7 @@ import DashboardPage from "views/Dashboard/Dashboard";
 //Banner views
 import { BannerTablePage, BannerEditPage} from "views/Banner"
 import { LawFirmTablePage, LawFirmEditPage } from "views/LawFirm"
+import { ServiceCenterTablePage, ServiceCenterEditPage } from "views/ServiceCenter"
 
 //Law firm views
 
@@ -49,8 +50,22 @@ const dashboardRoutes = [
     path: "/service-center",
     name: "法律服务站",
     icon: AccountBalance,
-    component: DashboardPage,
-    layout: "/admin"
+    component: ContainerPage,
+    layout: "/admin",
+    subRoutes: [
+      {
+        component: ServiceCenterEditPage,
+        path:"/:id/edit"
+      },
+      {
+        component: ServiceCenterEditPage,
+        path:"/new"
+      },
+      {
+        component: ServiceCenterTablePage,
+        path: "/index"
+      }
+    ],
   },
   {
     path: "/law-firm",
