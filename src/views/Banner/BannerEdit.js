@@ -25,7 +25,7 @@ const useStyles = makeStyles(styles);
 export default function BannerEdit(props) {
     const id = props.match.params.id;
     const classes = useStyles()
-    const isCreate = id == undefined ? '新建': '编辑'
+    const isCreate = id === undefined ? '新建': '编辑'
     const [banner, setBanner] = useState({
         title: "",
         imageURI: "",
@@ -63,7 +63,7 @@ export default function BannerEdit(props) {
 
     async function udpateBanner() {
         try {
-            await BannerService.updateById(id, banner)
+            let _res = await BannerService.updateById(id, banner)
             setSucceed(true)
             setTimeout(function() {
                 props.history.goBack();
@@ -78,12 +78,12 @@ export default function BannerEdit(props) {
 
     async function createBanner() {
         try {
-            await BannerService.create(banner)
+            let _res = await BannerService.create(banner)
             setSucceed(true)
             setTimeout(function() {
                 props.history.goBack();
             }, 6000);
-          } catch(err) {
+        } catch(err) {
             setErrors(err)
             setTimeout(function() {
                 setErrors(false);
@@ -110,7 +110,7 @@ export default function BannerEdit(props) {
                 fullWidth
                 closeNotification={() => setErrors(false)}
                 message={ '数据读取失败 - ' + hasError}
-                open={hasError}
+                open={!!hasError}
                 icon={Error}
                 color="danger"
                 close
@@ -122,7 +122,7 @@ export default function BannerEdit(props) {
                 message={ isCreate + '成功' }
                 color="success"
                 icon={Done}
-                open={succeed}
+                open={!!succeed}
                 close
             />
             <GridContainer>

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom'
 import PropTypes from "prop-types";
 
 // @material-ui/core
@@ -28,7 +29,8 @@ export default function TableAction(props) {
       >
         <IconButton
           aria-label="Edit"
-          href={editRoute}
+          component={Link}
+          to={editRoute}
           className={classes.tableActionButton}
           disabled={disabled}
         >

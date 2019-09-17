@@ -9,6 +9,11 @@ import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
+import Button from "components/CustomButtons/Button.js";
+
+// @material-ui/icons
+import Add from "@material-ui/icons/Add";
+
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 
@@ -16,16 +21,19 @@ import { BannerService } from "services/BannerService";
 import BannerRow from "views/Banner/BannerRow";
 
 const useStyles = makeStyles(styles);
-export default function BannerTable() {
+export default function BannerTable(props) {
     const classes = useStyles()
     return (
         <GridItem xs={12} sm={12} md={12}>
             <Card>
                 <CardHeader color="primary">
-                <h4 className={classes.cardTitleWhite}>轮播顶图</h4>
-                <p className={classes.cardCategoryWhite}>
-                    显示在小程序顶部的轮播顶图, 可外链至关联公众号
-                </p>
+                    <Button color="white" className="new-btn" aria-label="add" justIcon round onClick={() => {props.history.push("/admin/banner/new")}}>
+                        <Add />
+                    </Button>
+                    <h4 className={classes.cardTitleWhite}>轮播顶图</h4>
+                    <p className={classes.cardCategoryWhite}>
+                        显示在小程序顶部的轮播顶图, 可外链至关联公众号
+                    </p>
                 </CardHeader>
                 <CardBody>
                 <Table
