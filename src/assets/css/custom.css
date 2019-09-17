@@ -5,5 +5,9 @@
 .new-btn {
     position: absolute !important;
     margin: 5px 10px 0 0 !important;
-    right: 0
+    right: 0;
+}
+
+.display-image {
+    width: 100%;
 }

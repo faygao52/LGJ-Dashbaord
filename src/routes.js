@@ -10,8 +10,11 @@ import ContainerPage from "views/ContainerPage"
 
 import DashboardPage from "views/Dashboard/Dashboard";
 
-import BannerTable from "views/Banner/BannerTable"
-import BannerEditPage from "views/Banner/BannerEdit"
+//Banner views
+import { BannerTablePage, BannerEditPage} from "views/Banner"
+import { LawFirmTablePage, LawFirmEditPage } from "views/LawFirm"
+
+//Law firm views
 
 const dashboardRoutes = [
   {
@@ -37,7 +40,7 @@ const dashboardRoutes = [
         path:"/new"
       },
       {
-        component: BannerTable,
+        component: BannerTablePage,
         path: "/index"
       }
     ]
@@ -53,7 +56,21 @@ const dashboardRoutes = [
     path: "/law-firm",
     name: "律所",
     icon: LocalLibrary,
-    component: DashboardPage,
+    component: ContainerPage,
+    subRoutes: [
+      {
+        component: LawFirmEditPage,
+        path:"/:id/edit"
+      },
+      {
+        component: LawFirmEditPage,
+        path:"/new"
+      },
+      {
+        component: LawFirmTablePage,
+        path: "/index"
+      }
+    ],
     layout: "/admin"
   },
   {

@@ -10,14 +10,31 @@ const getByID = (id) =>
         `${process.env.REACT_APP_API_URL}/api/v1/law-firms/${id}`
     )
 
-const updateById = (id, usercase) => 
+const updateById = (id, lawFirm) => 
     ApiRequest.request(
         `${process.env.REACT_APP_API_URL}/api/v1/law-firms/${id}`,
-        usercase,
+        lawFirm,
         'PUT'
     )
+
+const deleteById = (id) =>
+    ApiRequest.request(
+        `${process.env.REACT_APP_API_URL}/api/v1/law-firms/${id}`,
+        null,
+        'DELETE'
+    )
+
+const create = (lawFirm) => 
+    ApiRequest.request(
+        `${process.env.REACT_APP_API_URL}/api/v1/law-firms/`,
+        lawFirm,
+        'POST'
+    )
+
 export const LawFirmService = {
     listAll,
     getByID,
-    updateById
+    updateById,
+    deleteById,
+    create
 }

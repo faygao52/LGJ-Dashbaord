@@ -152,8 +152,9 @@ export default function BannerEdit(props) {
                     />
                 </GridItem>
             </GridContainer>
+
             <GridContainer>
-                <GridItem xs={12} sm={12} md={12}>
+                <GridItem xs={12} sm={12} md={6}>
                 <CustomInput
                     labelText="文章链接"
                     id="link"
@@ -166,10 +167,6 @@ export default function BannerEdit(props) {
                         placeholder: "填写完整的公众号文章地址，https://mp.weixin.qq.com/..."
                     }}
                 />
-                </GridItem>
-            </GridContainer>
-            <GridContainer>
-                <GridItem xs={12} sm={12} md={12}>
                 <CustomInput
                     labelText="图片链接"
                     id="imageURI"
@@ -179,17 +176,16 @@ export default function BannerEdit(props) {
                     inputProps={{
                         onChange: handleChange('imageURI'),
                         value: banner.imageURI,
-                        placeholder: "填写外链图片地址"
+                        placeholder: "填写外链图片地址，图片大小750x315"
                     }}
                 />
                 </GridItem>
-            </GridContainer>
-            {banner.imageURI ? <GridContainer>
-                <GridItem xs={12} sm={12} md={12}>
+                {banner.imageURI ?
+                <GridItem xs={12} sm={12} md={6}>
                 <InputLabel style={{ color: "#AAAAAA" }}>图片预览</InputLabel>
-                <img src={banner.imageURI} alt="..." />
-                </GridItem>
-            </GridContainer> : null}
+                <img src={banner.imageURI} className="display-image" alt="..." />
+                </GridItem> : null}
+            </GridContainer>
             </CardBody>
             <CardFooter>
             <Button color="primary" disabled={isSubmitting} onClick={handleSubmit}>{isCreate}</Button>

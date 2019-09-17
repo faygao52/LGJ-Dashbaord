@@ -18,9 +18,9 @@ export default function CustomTable(props) {
 
 
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('id');
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [order, setOrder] = React.useState('desc');
+  const [orderBy, setOrderBy] = React.useState('created_at');
   const [count, setCount] = React.useState(0);
   const [dataset, setDataset] = React.useState([]);
   const [hasError, setErrors] =  React.useState(false)
