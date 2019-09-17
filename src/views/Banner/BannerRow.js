@@ -61,7 +61,7 @@ export default function BannerRow(props) {
         onChange={handleChangeVisibility}
       />
       </TableCell>
-      <TableAction editRoute="/admin/banner/111/edit" onDelete={handleDelete} disabled={isLoading} />
+      <TableAction editRoute={"/admin/banner/" + data.id + "/edit"} onDelete={handleDelete} disabled={isLoading} />
     </TableRow>
 
   );

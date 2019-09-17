@@ -24,9 +24,18 @@ const deleteById = (id) =>
         null,
         'DELETE'
     )
+
+const create = (banner) => {
+    ApiRequest.request(
+        `${process.env.REACT_APP_API_URL}/api/v1/banners`,
+        banner,
+        'POST'
+    )
+}
 export const BannerService = {
     listAll,
     getByID,
     updateById,
-    deleteById
+    deleteById,
+    create
 }

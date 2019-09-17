@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import { Table, TableBody, TableCell, TableRow, TableHead, TablePagination, TableSortLabel } from "@material-ui/core";
-import SnackbarContent from "components/Snackbar/SnackbarContent";
+import Snackbar from "components/Snackbar/Snackbar";
 
 // core components
 import styles from "assets/jss/material-dashboard-react/components/tableStyle.js";
@@ -27,12 +27,15 @@ export default function CustomTable(props) {
   
   async function fetchData() {
     try {
-      const res = await tableOnload(page + 1, rowsPerPage, orderBy)
+      const res = await tableOnload(page + 1, rowsPerPage, orderBy + ' ' + order)
       setPage(res.currentPage - 1)
       setDataset(res.dataCollection)
       setCount(res.totalElement)
     } catch(err) {
         setErrors(err)
+        setTimeout(function() {
+          setErrors(false);
+        }, 6000);
     }
   }
   React.useEffect(() => {
@@ -66,13 +69,16 @@ export default function CustomTable(props) {
 
   return (
     <div className={classes.tableResponsive}>
-      {hasError &&
-        <SnackbarContent
+      <Snackbar
+          place="tr"
           fullWidth
+          closeNotification={() => setErrors(false)}
           message={ '数据读取失败 - ' + hasError}
+          open={hasError}
+          icon={Error}
           color="danger"
-        />
-      }
+          close
+      />
       <Table className={classes.table}>
         {tableHead !== undefined ? (
           <TableHead className={classes[tableHeaderColor + "TableHeader"]}>

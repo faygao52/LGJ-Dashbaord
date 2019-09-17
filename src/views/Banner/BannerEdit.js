@@ -4,7 +4,10 @@ import { BannerService } from "services/BannerService";
 
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
+import { Switch, InputLabel, FormControlLabel } from "@material-ui/core";
+
+import Done from '@material-ui/icons/Done';
+import Error from '@material-ui/icons/ErrorOutline';
 
 // core components
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
@@ -16,13 +19,84 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
+import Snackbar from "components/Snackbar/Snackbar";
 
 const useStyles = makeStyles(styles);
 export default function BannerEdit(props) {
     const id = props.match.params.id;
     const classes = useStyles()
     const isCreate = id == undefined ? '新建': '编辑'
-    
+    const [banner, setBanner] = useState({
+        title: "",
+        imageURI: "",
+        link: "",
+        visible: true
+      });
+    const [isSubmitting, setSubmitting] = useState(false);
+    const [hasError, setErrors] = useState(false);
+    const [succeed, setSucceed] = useState(false);
+    async function fetchData() {
+        try {
+          const res = await BannerService.getByID(id)
+          setBanner(res.banner)
+        } catch(err) {
+          setErrors(err)
+          setTimeout(function() {
+            setErrors(false);
+          }, 6000);
+        }
+      }
+
+    const handleChange = name => event => {
+        setBanner({ ...banner, [name]: event.target.value });
+    };
+
+    const handleChangeVisibility = () => {
+        setBanner({ ...banner, visible: !banner.visible })
+    }
+      
+    const handleSubmit = () => {
+        setSubmitting(true)
+        id == undefined ? createBanner() : udpateBanner()
+        setSubmitting(false)
+    }
+
+    async function udpateBanner() {
+        try {
+            await BannerService.updateById(id, banner)
+            setSucceed(true)
+            setTimeout(function() {
+                props.history.goBack();
+            }, 6000);
+          } catch(err) {
+            setErrors(err)
+            setTimeout(function() {
+                setErrors(false);
+            }, 6000);
+        }
+    }
+
+    async function createBanner() {
+        try {
+            await BannerService.create(banner)
+            setSucceed(true)
+            setTimeout(function() {
+                props.history.goBack();
+            }, 6000);
+          } catch(err) {
+            setErrors(err)
+            setTimeout(function() {
+                setErrors(false);
+            }, 6000);
+        }
+    }
+    React.useEffect(() => {
+        if (id !== undefined) {
+            fetchData()
+        }
+      }, []);
+
+      
     return (
         <GridItem xs={12} sm={12} md={12}>
             <Card>
@@ -31,106 +105,94 @@ export default function BannerEdit(props) {
             <p className={classes.cardCategoryWhite}>{isCreate}顶部轮播图片</p>
             </CardHeader>
             <CardBody>
+            <Snackbar
+                place="tr"
+                fullWidth
+                closeNotification={() => setErrors(false)}
+                message={ '数据读取失败 - ' + hasError}
+                open={hasError}
+                icon={Error}
+                color="danger"
+                close
+            />
+            <Snackbar
+                place="tr"
+                fullWidth
+                closeNotification={() => setSucceed(false)}
+                message={ isCreate + '成功' }
+                color="success"
+                icon={Done}
+                open={succeed}
+                close
+            />
             <GridContainer>
-                <GridItem xs={12} sm={12} md={5}>
+                <GridItem xs={12} sm={12} md={6}>
+                    <CustomInput
+                        labelText="标题"
+                        id="title"
+                        formControlProps={{
+                        fullWidth: true
+                        }}
+                        inputProps={{
+                            onChange: handleChange('title'),
+                            value: banner.title,
+                            placeholder: "填写顶图标题"
+                        }}
+                    />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={6}>
+                    <FormControlLabel className={classes.formControl}
+                        control={<Switch
+                            label="显示"
+                            checked={banner.visible}
+                            onChange={handleChangeVisibility}
+                        />}
+                        label="显示"
+                        labelPlacement="start"
+                    />
+                </GridItem>
+            </GridContainer>
+            <GridContainer>
+                <GridItem xs={12} sm={12} md={12}>
                 <CustomInput
-                    labelText="Company (disabled)"
-                    id="company-disabled"
+                    labelText="文章链接"
+                    id="link"
                     formControlProps={{
                     fullWidth: true
                     }}
                     inputProps={{
-                    disabled: true
-                    }}
-                />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={3}>
-                <CustomInput
-                    labelText="Username"
-                    id="username"
-                    formControlProps={{
-                    fullWidth: true
-                    }}
-                />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                <CustomInput
-                    labelText="Email address"
-                    id="email-address"
-                    formControlProps={{
-                    fullWidth: true
-                    }}
-                />
-                </GridItem>
-            </GridContainer>
-            <GridContainer>
-                <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                    labelText="First Name"
-                    id="first-name"
-                    formControlProps={{
-                    fullWidth: true
-                    }}
-                />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                    labelText="Last Name"
-                    id="last-name"
-                    formControlProps={{
-                    fullWidth: true
-                    }}
-                />
-                </GridItem>
-            </GridContainer>
-            <GridContainer>
-                <GridItem xs={12} sm={12} md={4}>
-                <CustomInput
-                    labelText="City"
-                    id="city"
-                    formControlProps={{
-                    fullWidth: true
-                    }}
-                />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                <CustomInput
-                    labelText="Country"
-                    id="country"
-                    formControlProps={{
-                    fullWidth: true
-                    }}
-                />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                <CustomInput
-                    labelText="Postal Code"
-                    id="postal-code"
-                    formControlProps={{
-                    fullWidth: true
+                        onChange: handleChange('link'),
+                        value: banner.link,
+                        placeholder: "填写完整的公众号文章地址，https://mp.weixin.qq.com/..."
                     }}
                 />
                 </GridItem>
             </GridContainer>
             <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
-                <InputLabel style={{ color: "#AAAAAA" }}>About me</InputLabel>
                 <CustomInput
-                    labelText="Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo."
-                    id="about-me"
+                    labelText="图片链接"
+                    id="imageURI"
                     formControlProps={{
                     fullWidth: true
                     }}
                     inputProps={{
-                    multiline: true,
-                    rows: 5
+                        onChange: handleChange('imageURI'),
+                        value: banner.imageURI,
+                        placeholder: "填写外链图片地址"
                     }}
                 />
                 </GridItem>
             </GridContainer>
+            {banner.imageURI ? <GridContainer>
+                <GridItem xs={12} sm={12} md={12}>
+                <InputLabel style={{ color: "#AAAAAA" }}>图片预览</InputLabel>
+                <img src={banner.imageURI} alt="..." />
+                </GridItem>
+            </GridContainer> : null}
             </CardBody>
             <CardFooter>
-            <Button color="primary">{isCreate}</Button>
+            <Button color="primary" disabled={isSubmitting} onClick={handleSubmit}>{isCreate}</Button>
             </CardFooter>
         </Card>
         </GridItem>
